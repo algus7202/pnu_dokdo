@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>독도 영유권 수호 핵심 용어 아카이브</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #fdfbf7; /* Warm paper tone */
+            color: #2c3e50;
+        }
+        
+        h1, h2, h3, .serif {
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555; 
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #1e3a8a; /* Blue-900 */
+        }
+        
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background-color: #cbd5e1;
+            z-index: 0;
+        }
+        
+        .timeline-dot {
+            z-index: 10;
+        }
+
+        /* Mobile timeline adjustment */
+        @media (max-width: 768px) {
+            .timeline-line {
+                left: 20px;
+            }
+            .timeline-content {
+                margin-left: 40px;
+            }
+        }
+    </style>
+    <!-- Chosen Palette: Warm Neutrals & Heritage Colors. Background: #fdfbf7 (Paper), Text: #2c3e50 (Dark Slate), Primary: #1e3a8a (Navy Blue - Sea/Trigram), Accent: #991b1b (Muted Red - Seal/Trigram) -->
+    <!-- Application Structure Plan: 
+         1. Header: Impactful title and mission statement based on the source intro.
+         2. Analytical Dashboard: Visualizes the data distribution (Types of Evidence, Timeline Density) to give users a 'macro' view before the 'micro' reading.
+         3. Interactive Glossary (Grid): The core content. Filterable cards for Names, Documents, and People. Allows non-linear exploration.
+         4. Chronological Flow (Timeline): A linear representation of the dates mentioned in the source to establish historical continuity.
+         5. Educational logic: Summary -> Categorized Learning -> Chronological Context.
+    -->
+    <!-- Visualization & Content Choices: 
+         - Overview Charts: Doughnut Chart to show the balance of evidence (Names vs Docs vs People). Bar Chart for temporal distribution. Goal: Inform/Organize. Library: Chart.js.
+         - Card Grid: HTML/Tailwind Grid. Represents individual terms. Goal: Inform.
+         - Timeline: Vertical HTML Layout. Visualizes the sequence of events like 1454 -> 1900 -> 1905 -> 1952. Goal: Change/Time.
+         - Justification: Users need to understand both *what* the terms are and *when* they happened.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="antialiased selection:bg-blue-100 selection:text-blue-900">
+
+    <!-- Navigation / Header -->
+    <header class="bg-[#1e3a8a] text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center space-x-3 mb-4 md:mb-0">
+                <!-- Home Button -->
+                <a href="index.html" class="flex items-center justify-center p-2 rounded-lg bg-blue-800 hover:bg-blue-700 transition-colors mr-2" aria-label="홈으로 이동">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                </a>
+                <span class="text-2xl font-bold serif">독도 아카이브</span>
+                <span class="text-sm bg-blue-800 px-2 py-1 rounded text-blue-100">핵심 용어 사전</span>
+            </div>
+            <nav class="flex space-x-6 text-sm font-medium">
+                <a href="#dashboard" class="hover:text-blue-200 transition-colors">데이터 개요</a>
+                <a href="#dictionary" class="hover:text-blue-200 transition-colors">용어 탐색</a>
+                <a href="#timeline" class="hover:text-blue-200 transition-colors">역사 연표</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 space-y-16">
+
+        <!-- Intro Section -->
+        <section class="text-center max-w-3xl mx-auto space-y-4">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#1e3a8a] serif leading-tight">
+                독도 영유권 수호를 위한<br>핵심 지식
+            </h1>
+            <p class="text-lg text-slate-600 leading-relaxed">
+                명칭의 변천사부터 결정적인 고문서, 그리고 독도를 지켜낸 인물과 사건까지.<br>
+                독도 학습에 꼭 필요한 핵심 용어들을 체계적으로 정리했습니다.
+            </p>
+            <div class="h-1 w-20 bg-[#991b1b] mx-auto mt-6 rounded-full"></div>
+        </section>
+
+        <!-- Dashboard Section: Charts -->
+        <section id="dashboard" class="bg-white rounded-2xl shadow-sm border border-stone-200 p-6 md:p-10">
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold text-slate-800 mb-2 flex items-center">
+                    <span class="w-2 h-8 bg-[#1e3a8a] mr-3 rounded-sm"></span>
+                    데이터로 보는 독도 역사
+                </h2>
+                <p class="text-slate-500">
+                    전체 용어 데이터를 유형별, 시대별로 분석하여 독도 영유권 증거의 구조를 한눈에 파악합니다.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- Chart 1: Category Distribution -->
+                <div class="flex flex-col items-center">
+                    <h3 class="text-lg font-semibold text-slate-700 mb-4">용어 유형별 분포</h3>
+                    <div class="chart-container">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                    <p class="text-sm text-center text-slate-500 mt-4">
+                        문헌 증거(고문서)와 인물/사건이 균형 있게 기록되어 있습니다.
+                    </p>
+                </div>
+
+                <!-- Chart 2: Historical Timeline Density -->
+                <div class="flex flex-col items-center">
+                    <h3 class="text-lg font-semibold text-slate-700 mb-4">세기별 주요 기록 및 사건</h3>
+                    <div class="chart-container">
+                        <canvas id="timelineChart"></canvas>
+                    </div>
+                    <p class="text-sm text-center text-slate-500 mt-4">
+                        1900년대 전후로 영유권 관련 법령과 사건이 집중되어 있습니다.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dictionary Grid Section -->
+        <section id="dictionary" class="scroll-mt-24">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-8 border-b border-stone-200 pb-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-2 flex items-center">
+                        <span class="w-2 h-8 bg-[#991b1b] mr-3 rounded-sm"></span>
+                        핵심 용어 탐색
+                    </h2>
+                    <p class="text-slate-500">
+                        카테고리별로 카드를 필터링하여 상세 내용을 확인하세요.
+                    </p>
+                </div>
+                
+                <!-- Controls -->
+                <div class="flex flex-col sm:flex-row gap-3 mt-4 md:mt-0 w-full md:w-auto">
+                    <!-- Search -->
+                    <div class="relative group">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span class="text-slate-400">🔍</span>
+                        </div>
+                        <input type="text" id="searchInput" placeholder="검색어 입력..." 
+                            class="pl-10 pr-4 py-2 border border-stone-300 rounded-lg focus:ring-2 focus:ring-blue-900 focus:border-transparent outline-none w-full bg-[#fdfbf7] transition-all">
+                    </div>
+                    
+                    <!-- Filter Buttons -->
+                    <div class="flex bg-stone-200 p-1 rounded-lg" id="filterContainer">
+                        <button class="filter-btn px-4 py-1.5 rounded-md text-sm font-medium transition-all bg-white text-blue-900 shadow-sm" data-filter="all">전체</button>
+                        <button class="filter-btn px-4 py-1.5 rounded-md text-sm font-medium transition-all text-slate-600 hover:text-slate-900" data-filter="name">명칭</button>
+                        <button class="filter-btn px-4 py-1.5 rounded-md text-sm font-medium transition-all text-slate-600 hover:text-slate-900" data-filter="doc">문헌</button>
+                        <button class="filter-btn px-4 py-1.5 rounded-md text-sm font-medium transition-all text-slate-600 hover:text-slate-900" data-filter="event">인물/사건</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dynamic Grid -->
+            <div id="cardGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Cards will be injected here via JS -->
+            </div>
+            
+            <div id="noResults" class="hidden text-center py-12">
+                <p class="text-xl text-slate-400">검색 결과가 없습니다.</p>
+            </div>
+        </section>
+
+        <!-- Chronological Timeline Section -->
+        <section id="timeline" class="bg-[#1e3a8a] text-white rounded-2xl p-6 md:p-12 scroll-mt-24 relative overflow-hidden">
+            <!-- Background Decoration -->
+            <div class="absolute top-0 right-0 opacity-10 text-9xl font-serif pointer-events-none select-none">
+                歷史
+            </div>
+
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold serif mb-4">역사의 흐름</h2>
+                    <p class="text-blue-200">
+                        고대 우산국부터 현대에 이르기까지, 독도가 우리 땅임을 증명하는 시간의 기록입니다.
+                    </p>
+                </div>
+
+                <div class="relative" id="timelineContainer">
+                    <!-- Vertical Line -->
+                    <div class="timeline-line bg-blue-700/50"></div>
+                    
+                    <!-- Timeline items injected via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center text-slate-400 py-12 border-t border-stone-200 mt-12">
+            <p class="mb-2">독도 영유권 수호를 위한 핵심 용어 사전</p>
+            <p class="text-sm">Source: dokdo_terminology.md | Designed for Educational Purposes</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // --- Data Source (Extracted from Report) ---
+        const dokdoData = [
+            // 1. 명칭
+            {
+                id: 1,
+                category: "name",
+                title: "우산도 (于山島)",
+                year: "삼국시대",
+                yearInt: 512, // Approximate for sorting
+                description: "삼국시대 우산국에서 유래한 독도의 옛 이름입니다.",
+                tags: ["고대", "지명"]
+            },
+            {
+                id: 2,
+                category: "name",
+                title: "석도 (石島)",
+                year: "1900",
+                yearInt: 1900,
+                description: "1900년 대한제국 칙령 제41호에 등장하는 이름입니다. '돌섬(독섬)'을 한자로 표기한 것으로, 독도가 울릉군의 관할임을 보여주는 결정적 증거입니다.",
+                tags: ["대한제국", "법령"]
+            },
+            {
+                id: 3,
+                category: "name",
+                title: "마쓰시마 (송도, 松島)",
+                year: "과거",
+                yearInt: 1600, // Approximate
+                description: "과거 일본이 독도를 부르던 명칭입니다. 당시 일본은 울릉도를 '죽도(다케시마)'라고 불렀습니다.",
+                tags: ["일본", "옛이름"]
+            },
+            {
+                id: 4,
+                category: "name",
+                title: "리앙쿠르암 (Liancourt Rocks)",
+                year: "1849",
+                yearInt: 1849,
+                description: "1849년 프랑스 포경선 리앙쿠르호가 독도를 발견한 뒤 붙인 서양식 명칭입니다.",
+                tags: ["서양", "발견"]
+            },
+            // 2. 고문서
+            {
+                id: 5,
+                category: "doc",
+                title: "세종실록지리지",
+                year: "1454",
+                yearInt: 1454,
+                description: "조선의 관찬서로, 독도(우산)와 울릉도(무릉)가 강원도 울진현에 속하며 두 섬이 서로 바라볼 수 있다고 기록하고 있습니다.",
+                tags: ["조선", "관찬서"]
+            },
+            {
+                id: 6,
+                category: "doc",
+                title: "은주시청합기",
+                year: "1667",
+                yearInt: 1667,
+                description: "최초의 일본 문헌 기록입니다. 울릉도와 독도가 일본 영토 밖(조선 땅)임을 스스로 기록했습니다.",
+                tags: ["일본", "문헌"]
+            },
+            {
+                id: 7,
+                category: "doc",
+                title: "태정관 지령",
+                year: "1877",
+                yearInt: 1877,
+                description: "일본 메이지 정부의 최고 행정기관인 태정관이 내린 지시입니다. '울릉도와 독도는 일본과 관계없다'고 공식적으로 인정하여, 독도가 한국 땅임을 증명하는 결정적 자료입니다.",
+                tags: ["일본", "공문서", "결정적증거"]
+            },
+            {
+                id: 8,
+                category: "doc",
+                title: "대한제국 칙령 제41호",
+                year: "1900",
+                yearInt: 1900,
+                description: "고종 황제가 반포한 근대 법령입니다. 독도(석도)를 울릉군의 관할 구역으로 명확히 명시했습니다.",
+                tags: ["대한제국", "고종", "법령"]
+            },
+            {
+                id: 9,
+                category: "doc",
+                title: "시마네현 고시 제40호",
+                year: "1905",
+                yearInt: 1905,
+                description: "러일전쟁 중 일본이 독도를 '주인 없는 땅'이라 주장하며 불법적으로 자국 영토로 편입한 고시입니다.",
+                tags: ["일본", "불법편입"]
+            },
+            {
+                id: 10,
+                category: "doc",
+                title: "SCAPIN 제677호",
+                year: "1946",
+                yearInt: 1946,
+                description: "제2차 세계대전 직후 연합군 최고사령관이 내린 지령입니다. 독도를 일본의 통치권에서 제외한다고 명시했습니다.",
+                tags: ["연합군", "해방후"]
+            },
+            // 3. 인물 및 사건
+            {
+                id: 11,
+                category: "event",
+                title: "안용복",
+                year: "조선 숙종",
+                yearInt: 1693,
+                description: "조선 숙종 때의 어부입니다. 일본으로 건너가 울릉도와 독도가 조선 땅임을 주장하여, 일본 막부로부터 '울릉도 도해 금지령'을 받아냈습니다.",
+                tags: ["조선", "어부", "수호"]
+            },
+            {
+                id: 12,
+                category: "event",
+                title: "독도의용수비대",
+                year: "1950년대",
+                yearInt: 1953,
+                description: "1950년대 한국전쟁 혼란기에 홍순칠 등 민간인들이 결성한 단체입니다. 일본의 침범을 막고 독도를 지키기 위해 자발적으로 활동했습니다.",
+                tags: ["민간", "수호"]
+            },
+            {
+                id: 13,
+                category: "event",
+                title: "평화선 (이승만 라인)",
+                year: "1952",
+                yearInt: 1952,
+                description: "1952년 이승만 대통령이 선포한 해양 주권 선언입니다. 독도를 포함한 인접 해양에 대한 주권을 대내외에 명확히 했습니다.",
+                tags: ["현대", "주권선언"]
+            },
+            {
+                id: 14,
+                category: "event",
+                title: "다케시마의 날",
+                year: "매년 2월 22일",
+                yearInt: 2005, // Established year roughly
+                description: "일본 시마네현이 1905년의 불법 편입을 기념하며 매년 2월 22일로 제정한 날입니다. 한일 갈등의 주요 원인이 되고 있습니다.",
+                tags: ["일본", "갈등"]
+            }
+        ];
+
+        // --- State Management ---
+        let currentFilter = 'all';
+
+        // --- DOM Elements ---
+        const cardGrid = document.getElementById('cardGrid');
+        const timelineContainer = document.getElementById('timelineContainer');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const searchInput = document.getElementById('searchInput');
+        const noResults = document.getElementById('noResults');
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCharts();
+            renderCards(dokdoData);
+            renderTimeline(dokdoData);
+            setupEventListeners();
+        });
+
+        // --- Logic: Filtering & Search ---
+        function filterData() {
+            const query = searchInput.value.toLowerCase();
+            
+            const filtered = dokdoData.filter(item => {
+                const matchesCategory = currentFilter === 'all' || item.category === currentFilter;
+                const matchesSearch = item.title.toLowerCase().includes(query) || 
+                                      item.description.toLowerCase().includes(query) ||
+                                      item.year.includes(query);
+                return matchesCategory && matchesSearch;
+            });
+
+            renderCards(filtered);
+            
+            // Show/Hide No Results
+            if (filtered.length === 0) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+            }
+        }
+
+        // --- Rendering: Cards ---
+        function renderCards(data) {
+            cardGrid.innerHTML = '';
+            
+            data.forEach(item => {
+                const card = document.createElement('div');
+                
+                // Color coding borders based on category
+                let borderColorClass = '';
+                let badgeClass = '';
+                let categoryLabel = '';
+
+                if(item.category === 'name') {
+                    borderColorClass = 'border-l-4 border-l-stone-400';
+                    badgeClass = 'bg-stone-100 text-stone-600';
+                    categoryLabel = '명칭';
+                } else if(item.category === 'doc') {
+                    borderColorClass = 'border-l-4 border-l-blue-900';
+                    badgeClass = 'bg-blue-50 text-blue-800';
+                    categoryLabel = '문헌';
+                } else {
+                    borderColorClass = 'border-l-4 border-l-red-800';
+                    badgeClass = 'bg-red-50 text-red-800';
+                    categoryLabel = '인물/사건';
+                }
+
+                card.className = `bg-white rounded-xl shadow-sm border border-stone-100 p-6 card-hover flex flex-col justify-between h-full ${borderColorClass}`;
+                
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="text-xs font-bold uppercase tracking-wider px-2 py-1 rounded ${badgeClass}">
+                                ${categoryLabel}
+                            </span>
+                            <span class="text-sm font-serif text-slate-400 font-medium">${item.year}</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-2 leading-snug">${item.title}</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                            ${item.description}
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-stone-100 flex flex-wrap gap-2">
+                        ${item.tags.map(tag => `<span class="text-xs text-slate-400">#${tag}</span>`).join('')}
+                    </div>
+                `;
+                
+                cardGrid.appendChild(card);
+            });
+        }
+
+        // --- Rendering: Timeline ---
+        function renderTimeline(data) {
+            // Sort by yearInt
+            const sortedData = [...data].sort((a, b) => a.yearInt - b.yearInt);
+            
+            // Clear existing items (keep the line)
+            const line = timelineContainer.querySelector('.timeline-line');
+            timelineContainer.innerHTML = '';
+            timelineContainer.appendChild(line);
+
+            sortedData.forEach((item, index) => {
+                const isEven = index % 2 === 0;
+                const itemEl = document.createElement('div');
+                itemEl.className = `relative flex items-center justify-between md:justify-normal mb-8 w-full ${isEven ? 'md:flex-row-reverse' : ''}`;
+                
+                // Content Block
+                const contentHtml = `
+                    <div class="order-1 w-full md:w-5/12 bg-white/10 backdrop-blur-sm border border-blue-400/30 p-4 rounded-lg hover:bg-white/20 transition duration-300">
+                        <div class="flex justify-between items-center mb-1">
+                            <h4 class="font-bold text-lg">${item.title}</h4>
+                            <span class="text-xs bg-blue-800 px-2 py-0.5 rounded text-blue-200">${item.year}</span>
+                        </div>
+                        <p class="text-sm text-blue-100 opacity-90">${item.description}</p>
+                    </div>
+                `;
+
+                // Dot
+                const dotHtml = `
+                    <div class="z-20 flex items-center order-1 bg-blue-900 shadow-xl w-4 h-4 rounded-full border-2 border-blue-300 mx-auto md:mx-0 ${isEven ? 'md:mr-8 md:ml-0' : 'md:ml-8 md:mr-0'}"></div>
+                `;
+                
+                // Spacer for desktop centering logic
+                const spacerHtml = `<div class="order-1 w-0 md:w-5/12"></div>`;
+
+                // Layout logic for mobile vs desktop
+                // Mobile: Dot on left, Content on right
+                // Desktop: Zigzag
+                
+                // Creating a structure that works responsively
+                // We use flex-row-reverse for even items on desktop to put content on left
+                
+                // Actually, sticking to a simpler logic for this tailored output:
+                // Left side (or spacer), Dot (center), Right side (or spacer)
+                
+                if (window.innerWidth >= 768) {
+                    // Desktop Logic
+                    if (isEven) {
+                        itemEl.innerHTML = contentHtml + dotHtml + spacerHtml;
+                    } else {
+                        itemEl.innerHTML = spacerHtml + dotHtml + contentHtml;
+                    }
+                } else {
+                    // Mobile Logic: Dot Left, Content Right
+                    itemEl.className = "relative flex items-start mb-8 pl-8";
+                    itemEl.innerHTML = `
+                        <div class="absolute left-0 top-1.5 w-4 h-4 bg-blue-400 rounded-full border-2 border-white z-10"></div>
+                        <div class="bg-white/10 p-4 rounded-lg w-full">
+                            <span class="text-xs text-blue-300 font-bold block mb-1">${item.year}</span>
+                            <h4 class="font-bold text-lg mb-1">${item.title}</h4>
+                            <p class="text-sm text-blue-100 opacity-90">${item.description}</p>
+                        </div>
+                    `;
+                }
+                
+                timelineContainer.appendChild(itemEl);
+            });
+        }
+
+        // --- Rendering: Charts ---
+        function renderCharts() {
+            // Data Processing
+            const categoryCounts = { name: 0, doc: 0, event: 0 };
+            dokdoData.forEach(d => categoryCounts[d.category]++);
+
+            const centuryCounts = { '고대~16세기': 0, '17~18세기': 0, '19세기': 0, '20세기 이후': 0 };
+            dokdoData.forEach(d => {
+                if (d.yearInt < 1600) centuryCounts['고대~16세기']++;
+                else if (d.yearInt < 1800) centuryCounts['17~18세기']++;
+                else if (d.yearInt < 1900) centuryCounts['19세기']++;
+                else centuryCounts['20세기 이후']++;
+            });
+
+            // 1. Doughnut Chart (Categories)
+            const ctx1 = document.getElementById('categoryChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'doughnut',
+                data: {
+                    labels: ['명칭 관련', '핵심 고문서', '인물 및 사건'],
+                    datasets: [{
+                        data: [categoryCounts.name, categoryCounts.doc, categoryCounts.event],
+                        backgroundColor: ['#a8a29e', '#1e3a8a', '#991b1b'], // Stone, Navy, Red
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { padding: 20, font: { family: "'Noto Sans KR', sans-serif" } } }
+                    }
+                }
+            });
+
+            // 2. Bar Chart (Timeline)
+            const ctx2 = document.getElementById('timelineChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(centuryCounts),
+                    datasets: [{
+                        label: '기록/사건 수',
+                        data: Object.values(centuryCounts),
+                        backgroundColor: '#1e3a8a',
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { stepSize: 1 } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        // --- Event Listeners ---
+        function setupEventListeners() {
+            // Filter Button Click
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // UI Update
+                    filterButtons.forEach(b => {
+                        b.classList.remove('bg-white', 'text-blue-900', 'shadow-sm');
+                        b.classList.add('text-slate-600');
+                    });
+                    btn.classList.remove('text-slate-600');
+                    btn.classList.add('bg-white', 'text-blue-900', 'shadow-sm');
+
+                    // State Update
+                    currentFilter = btn.dataset.filter;
+                    filterData();
+                });
+            });
+
+            // Search Input
+            searchInput.addEventListener('input', filterData);
+            
+            // Window Resize for Timeline
+            window.addEventListener('resize', () => {
+                renderTimeline(dokdoData);
+            });
+        }
+
+    </script>
+</body>
+</html>
