@@ -3,10 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>독도 설명</title>
+    <title>독도, 우리 역사의 시작</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8fafc; /* Very light slate */
+        }
+        
+        .serif {
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        /* Custom Pastel Gradients */
+        .bg-pastel-blue { background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); }
+        .bg-pastel-green { background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%); }
+        .bg-pastel-peach { background: linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%); }
+        
+        /* Glassmorphism for cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .btn-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
 </head>
-<body>
-    <h1>독도 설명</h1>
-    <p><a href="02.html">연대기 아카이브 보기</a></p>
+<body class="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen flex flex-col items-center justify-center p-4">
+
+    <!-- Main Container -->
+    <main class="max-w-5xl w-full space-y-12">
+
+        <!-- Hero Section -->
+        <section class="text-center space-y-6 animate-fade-in-up">
+            <h1 class="text-4xl md:text-6xl font-bold text-slate-800 serif tracking-tight">
+                대한민국의 아름다운 영토,<br>
+                <span class="text-blue-500">독도</span>를 만나다
+            </h1>
+            <p class="text-lg text-slate-500 font-light max-w-2xl mx-auto">
+                역사적 사실과 올바른 지식을 통해 독도를 바로 알고,<br>
+                우리의 소중한 유산을 함께 지켜나가기 위한 공간입니다.
+            </p>
+        </section>
+
+        <!-- Image Section -->
+        <div class="w-full rounded-3xl overflow-hidden shadow-2xl shadow-blue-100/50 max-h-[400px] relative group">
+            <!-- Placeholder for Dokdo Image -->
+            <!-- 실제 독도 이미지 URL로 교체하여 사용하세요 -->
+            <img src="https://placehold.co/1200x600/E0F2FE/1E40AF?text=Beautiful+Dokdo+Image" 
+                 alt="독도 전경" 
+                 class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/30 to-transparent"></div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <nav class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+            
+            <!-- Link to Timeline (02.html) -->
+            <a href="02.html" class="group block relative rounded-2xl p-1 bg-gradient-to-br from-blue-100 to-blue-200 btn-hover">
+                <div class="bg-white/80 h-full rounded-xl p-8 flex flex-col items-center text-center backdrop-blur-sm transition group-hover:bg-white/90">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform text-2xl">
+                        ⏳
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-700 mb-2 serif">역사 연표</h2>
+                    <p class="text-slate-500 text-sm">
+                        삼국시대부터 현대까지,<br>독도의 역사를 한눈에
+                    </p>
+                    <div class="mt-6 px-4 py-2 bg-blue-500 text-white rounded-full text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                        연표 보기 &rarr;
+                    </div>
+                </div>
+            </a>
+
+            <!-- Link to Keywords (03.html) -->
+            <a href="03.html" class="group block relative rounded-2xl p-1 bg-gradient-to-br from-emerald-100 to-emerald-200 btn-hover">
+                <div class="bg-white/80 h-full rounded-xl p-8 flex flex-col items-center text-center backdrop-blur-sm transition group-hover:bg-white/90">
+                    <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform text-2xl">
+                        📚
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-700 mb-2 serif">핵심 지식</h2>
+                    <p class="text-slate-500 text-sm">
+                        꼭 알아야 할 독도 관련<br>필수 용어와 문헌
+                    </p>
+                    <div class="mt-6 px-4 py-2 bg-emerald-500 text-white rounded-full text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                        지식 탐구 &rarr;
+                    </div>
+                </div>
+            </a>
+
+            <!-- Link to Opinions (04.html) -->
+            <a href="04.html" class="group block relative rounded-2xl p-1 bg-gradient-to-br from-orange-100 to-orange-200 btn-hover">
+                <div class="bg-white/80 h-full rounded-xl p-8 flex flex-col items-center text-center backdrop-blur-sm transition group-hover:bg-white/90">
+                    <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform text-2xl">
+                        💬
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-700 mb-2 serif">의견 수렴</h2>
+                    <p class="text-slate-500 text-sm">
+                        독도를 사랑하는<br>우리의 생각 나누기
+                    </p>
+                    <div class="mt-6 px-4 py-2 bg-orange-500 text-white rounded-full text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                        의견 남기기 &rarr;
+                    </div>
+                </div>
+            </a>
+
+        </nav>
+
+        <!-- Footer -->
+        <footer class="text-center text-slate-400 text-sm pt-8 pb-4">
+            <p>&copy; 2024 독도 영유권 수호 프로젝트. All rights reserved.</p>
+        </footer>
+
+    </main>
 </body>
 </html>
